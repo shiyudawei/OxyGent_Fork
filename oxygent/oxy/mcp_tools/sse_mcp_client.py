@@ -76,7 +76,7 @@ class SSEMCPClient(BaseMCPClient):
             raise Exception(f"Server {self.name} error")
 
     async def call_tool(self, tool_name, arguments, headers=None):
-        async with sse_client(build_url(self.sse_url), headers=headers) as streams:
+        async with sse_client(build_url(self.sse_url), headers=headers, timeout=self.timeout) as streams:
             async with ClientSession(*streams) as session:
                 await session.initialize()
                 return await session.call_tool(tool_name, arguments)
